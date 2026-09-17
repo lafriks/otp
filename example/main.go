@@ -1,9 +1,6 @@
 package main
 
 import (
-	"github.com/pquerna/otp"
-	"github.com/pquerna/otp/totp"
-
 	"bufio"
 	"bytes"
 	"encoding/base32"
@@ -11,6 +8,9 @@ import (
 	"image/png"
 	"os"
 	"time"
+
+	"github.com/lafriks/otp"
+	"github.com/lafriks/otp/totp"
 )
 
 func display(key *otp.Key, data []byte) {
@@ -18,7 +18,7 @@ func display(key *otp.Key, data []byte) {
 	fmt.Printf("Account Name: %s\n", key.AccountName())
 	fmt.Printf("Secret:       %s\n", key.Secret())
 	fmt.Println("Writing PNG to qr-code.png....")
-	os.WriteFile("qr-code.png", data, 0644)
+	os.WriteFile("qr-code.png", data, 0o644)
 	fmt.Println("")
 	fmt.Println("Please add your TOTP to your OTP Application now!")
 	fmt.Println("")
@@ -33,18 +33,18 @@ func promptForPasscode() string {
 
 // Demo function, not used in main
 // Generates Passcode using a UTF-8 (not base32) secret and custom parameters
-func GeneratePassCode(utf8string string) string{
-        secret := base32.StdEncoding.EncodeToString([]byte(utf8string))
-        passcode, err := totp.GenerateCodeCustom(secret, time.Now(), totp.ValidateOpts{
-                Period:    30,
-                Skew:      1,
-                Digits:    otp.DigitsSix,
-                Algorithm: otp.AlgorithmSHA512,
-        })
-        if err != nil {
-                panic(err)
-        }
-        return passcode
+func GeneratePassCode(utf8string string) string {
+	secret := base32.StdEncoding.EncodeToString([]byte(utf8string))
+	passcode, err := totp.GenerateCodeCustom(secret, time.Now(), totp.ValidateOpts{
+		Period:    30,
+		Skew:      1,
+		Digits:    otp.DigitsSix,
+		Algorithm: otp.AlgorithmSHA512,
+	})
+	if err != nil {
+		panic(err)
+	}
+	return passcode
 }
 
 func main() {

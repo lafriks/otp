@@ -1,8 +1,10 @@
-module github.com/pquerna/otp
+module github.com/lafriks/otp
 
-go 1.12
+go 1.17
 
 require (
-	github.com/boombuler/barcode v1.0.1-0.20190219062509-6c824513bacc
-	github.com/stretchr/testify v1.3.0
+	github.com/boombuler/barcode v1.1.0
+	github.com/stretchr/testify v1.12.1
 )
+
+require go.yaml.in/yaml/v3 v3.0.5 // indirect
